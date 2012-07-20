@@ -23,7 +23,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".YoukuHelperActivity">
+        <activity
+            android:name=".YoukuHelperActivity"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
