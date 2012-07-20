@@ -36,6 +36,7 @@ public class YoukuHelperActivity extends Activity {
     private WebView webview;
     private Boolean play;
     private ArrayList<String> linkList;
+    private int listPosition = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +55,11 @@ public class YoukuHelperActivity extends Activity {
             //@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 play = true;
-                //Object listItem = mainListView.getItemAtPosition(position);
-                String link = ((TextView)view).getText().toString();
-                webview.loadUrl(link);
-                Log.d(TAG, "after webview");
+                listPosition = position + 1;
+                Object link = mainListView.getItemAtPosition(position);
+                //String link = ((TextView)view).getText().toString();
+                webview.loadUrl((String)link);
+                Log.d(TAG, "position: "+ position);
                 //Uri uri = Uri.parse(link);
                 //Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 //intent.setClassName("com.mxtech.videoplayer.ad", "com.mxtech.videoplayer.ad.ActivityScreen");
@@ -90,18 +92,13 @@ public class YoukuHelperActivity extends Activity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        play = false;
-        Log.d(TAG, "onStart play: " + play);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        int flags = getIntent().getFlags();
-        Log.d(TAG, "onResume play: " + play);
-        Log.d(TAG, "onResume flags: " + flags);
+        if (listPosition < mainListView.getCount()) {
+          Object item = mainListView.getItemAtPosition(listPosition);
+          listPosition++;
+          webview.loadUrl((String)item);
+        }
     }
 
     private class ParseFlvcd extends AsyncTask<String, Object, Object> {
