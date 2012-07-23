@@ -6,7 +6,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,7 +32,6 @@ public class YoukuHelperActivity extends Activity {
     private ListView mainListView;
     private ArrayAdapter<String> listAdapter;
     private WebView webview;
-    private Context appContext;
     private int listPosition = 0;
 
     @Override
@@ -41,7 +40,6 @@ public class YoukuHelperActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         webview = new WebView(this);
-        appContext = getApplicationContext();
         mainListView = (ListView) findViewById( R.id.mainListView );
         listAdapter = new ArrayAdapter<String>(this, R.layout.simple_row);
         mainListView.setAdapter( listAdapter );
@@ -93,6 +91,8 @@ public class YoukuHelperActivity extends Activity {
 
     private class ParseFlvcd extends AsyncTask<String, Object, ArrayList<String>> {
 
+        private ProgressDialog dialog;
+
         @Override
         protected ArrayList<String> doInBackground(String... param) {
             ArrayList<String> linkList = new ArrayList<String>();
@@ -114,10 +114,18 @@ public class YoukuHelperActivity extends Activity {
         }
 
         @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(YoukuHelperActivity.this);
+            dialog.setMessage("Loading...");
+            dialog.show();
+        }
+
+        @Override
         protected void onPostExecute(ArrayList<String> linkList) {
+            dialog.dismiss();
             listAdapter.clear();
             if(linkList.isEmpty()) {
-                Toast toast = Toast.makeText(appContext, "Error when getting video links, try again later", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "Error when getting video links, try again later", Toast.LENGTH_SHORT);
                 toast.show();
             }
             for (String link : linkList) {
