@@ -125,7 +125,7 @@ public class YoukuHelperActivity extends Activity {
             dialog.dismiss();
             listAdapter.clear();
             if(linkList.isEmpty()) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Error when getting video links, try again later", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(YoukuHelperActivity.this, "Error when getting video links, try again later", Toast.LENGTH_SHORT);
                 toast.show();
             }
             for (String link : linkList) {
