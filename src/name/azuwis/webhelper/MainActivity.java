@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -23,6 +24,7 @@ public class MainActivity extends Activity {
     private ArrayAdapter<String> listAdapter;
     private WebView webview;
     private int listPosition = 0;
+    private Boolean play = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,10 @@ public class MainActivity extends Activity {
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                play = true;
+                playVideo(position);
                 listPosition = position + 1;
-                Object link = mainListView.getItemAtPosition(position);
                 //String link = ((TextView)view).getText().toString();
-                webview.loadUrl((String)link);
-                Log.d(TAG, "position: "+ position);
             }
         });
         ArrayList<String> linkList = getIntent().getStringArrayListExtra("linkList");
@@ -54,6 +55,7 @@ public class MainActivity extends Activity {
     @Override
 	protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        play = false;
         ArrayList<String> linkList = intent.getStringArrayListExtra("linkList");
         updateView(linkList);
     }
@@ -61,10 +63,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (listPosition > 0 && listPosition < mainListView.getCount()) {
-          Object item = mainListView.getItemAtPosition(listPosition);
-          listPosition++;
-          webview.loadUrl((String)item);
+        if (play && listPosition > 0 && listPosition < mainListView.getCount()) {
+            playVideo(listPosition);
+            listPosition++;
         }
     }
 
@@ -75,12 +76,18 @@ public class MainActivity extends Activity {
     }
 
     private void updateView(List<String> linkList) {
-        listPosition = 0;
         if (linkList != null) {
             listAdapter.clear();
+            listPosition = 0;
             for (String link : linkList) {
                 listAdapter.add(link);
             }
         }
+    }
+
+    private void playVideo(int position) {
+        mainListView.getChildAt(position).setBackgroundColor(Color.GRAY);
+        Object item = mainListView.getItemAtPosition(position);
+        webview.loadUrl((String)item);
     }
 }
