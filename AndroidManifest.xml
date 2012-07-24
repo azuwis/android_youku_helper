@@ -15,7 +15,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,9 +26,7 @@
         </activity>
 
         <activity
-            android:name=".YoukuHelperActivity"
-            android:clearTaskOnLaunch="true"
-            android:launchMode="singleTask" >
+            android:name=".YoukuHelperActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
