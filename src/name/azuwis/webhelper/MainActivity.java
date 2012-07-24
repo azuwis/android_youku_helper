@@ -18,10 +18,9 @@ public class MainActivity extends Activity {
 
 
     private static final String TAG = "MainActivity";
-    public static final String PREFS_VIDEOLIST = "VideoList";
 
     private ListView mainListView;
-    public static ArrayAdapter<String> listAdapter;
+    private ArrayAdapter<String> listAdapter;
     private WebView webview;
     private int listPosition = 0;
 
