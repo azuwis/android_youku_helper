@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -88,13 +89,13 @@ public class YoukuHelperActivity extends Activity {
         new ParseFlvcd().execute(url);
     }
 
-    private class ParseFlvcd extends AsyncTask<String, Object, ArrayList<String>> {
+    private class ParseFlvcd extends AsyncTask<String, Object, List<String>> {
 
         private ProgressDialog dialog;
 
         @Override
-        protected ArrayList<String> doInBackground(String... param) {
-            ArrayList<String> linkList = new ArrayList<String>();
+        protected List<String> doInBackground(String... param) {
+            List<String> linkList = new ArrayList<String>();
             String url = param[0];
             Log.d(TAG,"flv url: " + url);
             try {
@@ -120,7 +121,7 @@ public class YoukuHelperActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> linkList) {
+        protected void onPostExecute(List<String> linkList) {
             dialog.dismiss();
             listAdapter.clear();
             if(linkList.isEmpty()) {
