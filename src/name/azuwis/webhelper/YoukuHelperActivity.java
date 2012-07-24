@@ -45,7 +45,6 @@ public class YoukuHelperActivity extends Activity {
         mainListView.setAdapter( listAdapter );
 
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             //@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 listPosition = position + 1;
@@ -54,7 +53,7 @@ public class YoukuHelperActivity extends Activity {
                 webview.loadUrl((String)link);
                 Log.d(TAG, "position: "+ position);
             }
-            });
+        });
         callFlvcd(getIntent());
     }
 
