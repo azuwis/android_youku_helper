@@ -9,6 +9,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +23,19 @@ import org.jsoup.select.Elements;
 public class YoukuHelperActivity extends Activity {
 
     private static final String TAG = "YoukuHelperActivity";
-    public static final String PREFS_VIDEOLIST = "VideoList";
+    private String videoUrl;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        callFlvcd(getIntent().getData().toString());
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        if (uri != null) {
+            videoUrl = uri.toString();
+        } else {
+            videoUrl = intent.getStringExtra("videoUrl");
+        }
+        callFlvcd(videoUrl);
     }
 
     private void callFlvcd(String url) {
@@ -81,6 +89,7 @@ public class YoukuHelperActivity extends Activity {
                 toast.show();
             }
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra("videoUrl", videoUrl);
             intent.putStringArrayListExtra("linkList", (ArrayList<String>)linkList);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
